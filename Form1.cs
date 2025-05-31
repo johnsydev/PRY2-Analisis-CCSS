@@ -26,5 +26,10 @@ namespace PRY2_Analisis_CCSS
         {
 
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

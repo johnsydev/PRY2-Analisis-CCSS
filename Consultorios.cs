@@ -10,12 +10,11 @@ namespace PRY2_Analisis_CCSS
 {
     public class Consultorios
     {
-        public int id_consultorio { get; private set; }
-        public ArrayList especialidades { get; set; }
-        public int tiempo_atencion { get; set; }
-        public bool Disponible { get; set; }
+        public int id_consultorio;
+        public ArrayList especialidades = new ArrayList();
+        public bool Disponible;
 
-        public Consultorios(int id_consultorio, ArrayList especialidades, int tiempo_atencion)
+        public Consultorios(int id_consultorio)
         {
             this.id_consultorio = id_consultorio;
             this.Disponible = true;
@@ -25,8 +24,12 @@ namespace PRY2_Analisis_CCSS
             this.especialidades.Add(especialidad);
         }
 
-        public void setTiempoAtencion(int tiempo_atencion) {
-            this.tiempo_atencion = tiempo_atencion;
+        public void EliminarEspecialidad(Especialidad especialidad) { 
+            this.especialidades.Remove(especialidad);
+        }
+
+        public ArrayList getEspecialidades() { 
+            return this.especialidades;
         }
 
         public void CerrarConsultorio() { 

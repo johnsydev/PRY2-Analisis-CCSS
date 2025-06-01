@@ -14,10 +14,13 @@ namespace PRY2_Analisis_CCSS
         public ArrayList especialidades = new ArrayList();
         public bool Disponible;
 
+        public static ArrayList consultorios = new ArrayList();
+
         public Consultorios(int id_consultorio)
         {
             this.id_consultorio = id_consultorio;
             this.Disponible = true;
+            consultorios.Add(this);
         }
 
         public void AgregarEspecialidad(Especialidad especialidad) { // Esto necesita de la clase Especialidades
@@ -40,5 +43,21 @@ namespace PRY2_Analisis_CCSS
             this.Disponible = true;
         }
 
+        public static ArrayList getConsultorios()
+        {
+            return consultorios;
+        }
+
+        public static Consultorios buscarConsultorio(int id)
+        {
+            foreach (Consultorios consultorio in consultorios)
+            {
+                if (consultorio.id_consultorio == id)
+                {
+                    return consultorio;
+                }
+            }
+            return null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections;
+using System.Data;
 
 namespace PRY2_Analisis_CCSS
 {
@@ -9,11 +10,14 @@ namespace PRY2_Analisis_CCSS
         int tiempoAtendido;
         public bool disponible;
 
+        public static ArrayList especialidades = new ArrayList();
+
         public Especialidad(int id, string nombre)
         {
             this.id_especialidad = id;
             this.nombre = nombre;
             this.disponible = true;
+            especialidades.Add(this);
         }
 
         public void AbrirEspecialidad()
@@ -22,15 +26,35 @@ namespace PRY2_Analisis_CCSS
         }
 
         public void CerrarEspecialidad()
-        { 
-            this.disponible = false; 
+        {
+            this.disponible = false;
         }
 
-        public void setTiempoAtencion(int tiempo) {
+        public void setTiempoAtencion(int tiempo)
+        {
             this.tiempoAtendido = tiempo;
         }
 
-        public int getTiempoAtencion() {
+        public int getTiempoAtencion()
+        {
             return this.tiempoAtendido;
         }
+
+        public static ArrayList getEspecialidades()
+        {
+            return especialidades;
+        }
+
+        public static Especialidad buscarEspecialidad(int id)
+        {
+            foreach(Especialidad especialidad in especialidades)
+            {
+                if (especialidad.id_especialidad == id)
+                {
+                    return especialidad;
+                }
+            }
+            return null;
+        }
+    }
 }

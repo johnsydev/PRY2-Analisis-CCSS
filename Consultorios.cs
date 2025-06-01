@@ -27,7 +27,8 @@ namespace PRY2_Analisis_CCSS
         }
 
         public void AgregarEspecialidad(Especialidad especialidad) { // Esto necesita de la clase Especialidades
-            this.especialidades.Add(especialidad);
+            Especialidad espCopia = new Especialidad(especialidad.id_especialidad, especialidad.nombre);
+            this.especialidades.Add(espCopia);
         }
 
         public void EliminarEspecialidad(Especialidad especialidad) { 
@@ -44,6 +45,16 @@ namespace PRY2_Analisis_CCSS
 
         public void AbrirConsultorio(){
             this.Disponible = true;
+        }
+
+        public static void EliminarConsultorio(int id) {
+            foreach (Consultorios consultorio in consultorios)
+            {
+                if (consultorio.id_consultorio == id)
+                {
+                    consultorios.Remove(consultorio);
+                }
+            }
         }
 
         public static ArrayList getConsultorios()
@@ -66,6 +77,18 @@ namespace PRY2_Analisis_CCSS
                 if (consultorio.id_consultorio == id)
                 {
                     return consultorio;
+                }
+            }
+            return null;
+        }
+
+        public Especialidad buscarEspecialidadPorNombre(string nombre)
+        {
+            foreach (Especialidad especialidad in especialidades)
+            {
+                if (especialidad.nombre == nombre)
+                {
+                    return especialidad;
                 }
             }
             return null;

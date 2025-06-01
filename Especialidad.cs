@@ -22,6 +22,14 @@ namespace PRY2_Analisis_CCSS
             especialidades.Add(this);
         }
 
+        public Especialidad(int id, string nombre)
+        {
+            this.id_especialidad = id;
+            this.nombre = nombre;
+            this.disponible = true;
+        }
+
+
         public void AbrirEspecialidad()
         {
             this.disponible = true;
@@ -52,6 +60,18 @@ namespace PRY2_Analisis_CCSS
             foreach(Especialidad especialidad in especialidades)
             {
                 if (especialidad.id_especialidad == id)
+                {
+                    return especialidad;
+                }
+            }
+            return null;
+        }
+
+        public static Especialidad buscarEspecialidadPorNombre(string nombre)
+        {
+            foreach (Especialidad especialidad in especialidades)
+            {
+                if (especialidad.nombre == nombre)
                 {
                     return especialidad;
                 }

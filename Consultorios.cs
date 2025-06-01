@@ -13,12 +13,15 @@ namespace PRY2_Analisis_CCSS
         public int id_consultorio;
         public ArrayList especialidades = new ArrayList();
         public bool Disponible;
+        public ArrayList colaPacientes = new ArrayList(); 
 
         public static ArrayList consultorios = new ArrayList();
+        public static int cantidadConsultorios = 0;
 
-        public Consultorios(int id_consultorio)
+        public Consultorios()
         {
-            this.id_consultorio = id_consultorio;
+            cantidadConsultorios++;
+            this.id_consultorio = cantidadConsultorios;
             this.Disponible = true;
             consultorios.Add(this);
         }
@@ -46,6 +49,14 @@ namespace PRY2_Analisis_CCSS
         public static ArrayList getConsultorios()
         {
             return consultorios;
+        }
+
+        public void agregarPaciente(Pacientes paciente) {
+            if (Disponible == false)
+            {
+                MessageBox.Show("El consultorio esta cerrado");
+            }
+            this.colaPacientes.Add(paciente);
         }
 
         public static Consultorios buscarConsultorio(int id)

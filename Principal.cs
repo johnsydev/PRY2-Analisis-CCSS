@@ -13,9 +13,12 @@ namespace PRY2_Analisis_CCSS
             Console.WriteLine("Opciones:");
             Console.WriteLine("1. Crear Consultorios");
             Console.WriteLine("2. Crear Especialidades");
-            Console.WriteLine("3. Ver consultorios");
-            Console.WriteLine("4. Asignar especialidad a consultorio");
-            Console.WriteLine("5. Cerrar consultorio");
+            Console.WriteLine("3. Nuevo Paciente");
+            Console.WriteLine("4. Ver consultorios");
+            Console.WriteLine("5. Asignar especialidad a consultorio");
+            Console.WriteLine("6. Cerrar consultorio");
+            Console.WriteLine("7. Asignar especialidad a paciente");
+            Console.WriteLine("8. Ver pacientes");
             Console.WriteLine("0. Salir");
 
             Console.Write("Seleccione una opción: ");
@@ -27,15 +30,16 @@ namespace PRY2_Analisis_CCSS
             Menu();
             int opcion = int.Parse(Console.ReadLine());
 
-            int numConsultorio = 1;
+            ArrayList colaDeEspera = new ArrayList();
+
+            int prioridadPaciente = 1;
 
             while (opcion != 0)
             {
                 switch (opcion)
                 {
                     case 1:
-                        Consultorios consultorio = new Consultorios(numConsultorio);
-                        numConsultorio++;
+                        Consultorios consultorio = new Consultorios();
                         Console.WriteLine("Consultorio creado con ID: " + consultorio.id_consultorio);
                         break;
 
@@ -43,12 +47,9 @@ namespace PRY2_Analisis_CCSS
                         Console.Write("Ingrese el nombre de la especialidad: ");
                         string nombre = Console.ReadLine();
 
-                        Console.Write("Ingrese el numero de la especialidad: ");
-                        int numero = int.Parse(Console.ReadLine());
+                        Especialidad especialidad = new Especialidad(nombre);
 
-                        Especialidad especialidad = new Especialidad(numero, nombre);
-
-                        Console.Write("Ingrese el tiempo de atencion de la especialidad: ");
+                        Console.Write("Ingrese el tiempo de atencion de la especialidad (minutos): ");
                         int tiempoAtencion = int.Parse(Console.ReadLine());
 
                         especialidad.setTiempoAtencion(tiempoAtencion);
@@ -58,6 +59,13 @@ namespace PRY2_Analisis_CCSS
                         break;
 
                     case 3:
+                        Console.Write("Ingrese el nombre del paciente: ");
+                        string nombrePaciente = Console.ReadLine();
+                        Pacientes paciente = new Pacientes(prioridadPaciente, nombrePaciente);
+                        prioridadPaciente++;
+                        break;
+
+                    case 4:
                         ArrayList listaConsultorios = Consultorios.getConsultorios();
                         if (listaConsultorios.Count > 0)
                         {
@@ -85,7 +93,7 @@ namespace PRY2_Analisis_CCSS
                         }
                         break;
 
-                    case 4:
+                    case 5:
                         Console.Write("Ingrese el numero del consultorio: ");
                         int numeroC = int.Parse(Console.ReadLine());
                         Consultorios c = Consultorios.buscarConsultorio(numeroC);
@@ -98,7 +106,7 @@ namespace PRY2_Analisis_CCSS
                         Console.WriteLine("Especialidad agregada correctamente");
                         break;
 
-                    case 5:
+                    case 6:
                         Console.Write("Ingrese el numero del consultorio: ");
                         int numeroCerrar = int.Parse(Console.ReadLine());
                         Consultorios cCerrar = Consultorios.buscarConsultorio(numeroCerrar);
@@ -106,10 +114,39 @@ namespace PRY2_Analisis_CCSS
                         Console.WriteLine("Consultorio cerrado.");
                         break;
 
-                    default:
-                        Console.WriteLine("Opción no válida.");
+                    case 7:
+                        Console.Write("Ingrese el numero del paciente: ");
+                        int numeroP = int.Parse(Console.ReadLine());
+                        Pacientes pac = Pacientes.buscarPaciente(numeroP);
+                        Console.Write("Ingrese el numero de la especialidad: ");
+                        int numeroEsp = int.Parse(Console.ReadLine());
+                        Especialidad esp = Especialidad.buscarEspecialidad(numeroEsp);
+                        pac.setEspecialidad(esp);
+                        Console.WriteLine("Especialidad asignada.");
                         break;
-                }
+                    case 8:
+                        ArrayList listaPacientes = Pacientes.getListaPacientes();
+                        if (listaPacientes.Count > 0)
+                        {
+                            foreach (Pacientes paci in listaPacientes)
+                            {
+                                Console.WriteLine("Paciente: " + paci.id_paciente + " - " + paci.nombre);
+                                
+                                if (paci.getEspecialidades().Count > 0)
+                                {
+                                    foreach (Especialidad especialidadPaci in paci.getEspecialidades())
+                                    {
+                                        Console.WriteLine("   - " + especialidadPaci.nombre);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay pacientes.");
+                        }
+                        break;
+                    }
                 Menu();
                 Console.Write("Seleccione una opción: ");
                 opcion = int.Parse(Console.ReadLine());

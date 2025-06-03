@@ -22,7 +22,7 @@ namespace PRY2_Analisis_CCSS
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            menuStrip1.Renderer = new CustomMenuRenderer();
         }
 
         private void toolStripLabel1_Click(object sender, EventArgs e)

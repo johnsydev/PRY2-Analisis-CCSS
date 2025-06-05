@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -159,7 +160,69 @@ namespace PRY2_Analisis_CCSS
 
             string genero = Prompt.ShowElegirGenero("Seleccione su genero", "Seleccionar genero");
 
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(genero))
+            {
+                MessageBox.Show("Debe ingresar un nombre y seleccionar un género.", "Error");
+                return;
+            }
+
             Pacientes paciente = new Pacientes(nombre, genero);
+
+            string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
+            rutaBase = Path.GetFullPath(rutaBase);
+
+            PanelEspera.Controls.Clear();
+
+            List<string> imagenesHombres = new List<string>()
+            {
+                Path.Combine(rutaBase, "hombre1.png"),
+                Path.Combine(rutaBase, "hombre2.png"),
+                Path.Combine(rutaBase, "hombre3.png"),
+                Path.Combine(rutaBase, "hombre4.png"),
+                Path.Combine(rutaBase, "hombre5.png"),
+            };
+
+            List<string> imagenesMujeres = new List<string>()
+            {
+                Path.Combine(rutaBase, "mujer1.png"),
+                Path.Combine(rutaBase, "mujer2.png"),
+                Path.Combine(rutaBase, "mujer3.png"),
+                Path.Combine(rutaBase, "mujer4.png"),
+                Path.Combine(rutaBase, "mujer5.png"),
+            };
+
+            Random random = new Random();
+            if (genero == "Mujer")
+            {
+                paciente.setImagen(imagenesMujeres[random.Next(imagenesMujeres.Count)]);
+            }
+            else
+            {
+                paciente.setImagen(imagenesHombres[random.Next(imagenesHombres.Count)]);
+            }
+
+
+            int x = 10;
+            foreach (Pacientes p in Pacientes.getListaPacientes())
+            {
+                PictureBox pic = new PictureBox();
+                pic.Image = Image.FromFile(p.imagen);
+                pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                pic.Size = new Size(50, 50);
+                pic.Location = new Point(x, 20);
+                PanelEspera.Controls.Add(pic);
+
+                Label labelNombre = new Label();
+                labelNombre.Text = p.nombre;
+                labelNombre.AutoSize = false;
+                labelNombre.TextAlign = ContentAlignment.TopCenter;
+                labelNombre.Size = new Size(50, 20);
+                labelNombre.Location = new Point(x, 75);
+                PanelEspera.Controls.Add(labelNombre);
+
+                x += 80;
+            }
+
             MessageBox.Show("Paciente creado: " + paciente.nombre, "Éxito");
         }
 
@@ -195,6 +258,11 @@ namespace PRY2_Analisis_CCSS
             {
                 botonAEliminar.Visible = false;  // Ocultar sin modificar la colección mientras iteras
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

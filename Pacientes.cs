@@ -11,6 +11,7 @@ namespace PRY2_Analisis_CCSS
         public int id_paciente;
         public string nombre;
         public string genero;
+        public string imagen;
         public ArrayList especialidades = new ArrayList();
         public ArrayList tiquetes = new ArrayList();
 
@@ -44,6 +45,11 @@ namespace PRY2_Analisis_CCSS
         public string getGenero()
         {
             return this.genero;
+        }
+
+        public void setImagen(string imagen)
+        {
+            this.imagen = imagen;
         }
 
         public void asignarTiquete(Especialidad especialidad)

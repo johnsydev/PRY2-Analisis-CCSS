@@ -156,7 +156,10 @@ namespace PRY2_Analisis_CCSS
         private void AgregarPaciente_Click(object sender, EventArgs e)
         {
             string nombre = Prompt.ShowDialog("Ingrese el nombre", "Agregar paciente");
-            Pacientes paciente = new Pacientes(nombre);
+
+            string genero = Prompt.ShowElegirGenero("Seleccione su genero", "Seleccionar genero");
+
+            Pacientes paciente = new Pacientes(nombre, genero);
             MessageBox.Show("Paciente creado: " + paciente.nombre, "Éxito");
         }
 

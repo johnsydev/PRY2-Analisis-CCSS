@@ -61,7 +61,7 @@ namespace PRY2_Analisis_CCSS
                     case 3:
                         Console.Write("Ingrese el nombre del paciente: ");
                         string nombrePaciente = Console.ReadLine();
-                        Pacientes paciente = new Pacientes(nombrePaciente);
+                        Pacientes paciente = new Pacientes(nombrePaciente, "");
                         prioridadPaciente++;
                         break;
 

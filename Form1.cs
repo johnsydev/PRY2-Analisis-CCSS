@@ -123,11 +123,17 @@ namespace PRY2_Analisis_CCSS
             MessageBox.Show("Consultorio creado con ID: " + consultorio.id_consultorio, "Éxito");
             int contador = Consultorios.cantidadConsultorios - 1;
 
+            string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
+            rutaBase = Path.GetFullPath(rutaBase);
+            string rutaImagen = Path.Combine(rutaBase, "consultorioCe.png");
+
             Button cuadro = new Button();
-            cuadro.Size = new Size(100, 50);
+            cuadro.Size = new Size(100, 150);
             cuadro.Text = "" + consultorio.id_consultorio;
-            cuadro.BackColor = Color.Green;
-            cuadro.ForeColor = Color.White;
+            Image escalada = Image.FromFile(rutaImagen).GetThumbnailImage(cuadro.Width, cuadro.Height, null, IntPtr.Zero);
+            cuadro.Image = escalada;
+            cuadro.TextAlign = ContentAlignment.MiddleRight; // Opcional: alinea el texto
+
             cuadro.Location = new Point(20 + (contador * 120), 40);
             this.Controls.Add(cuadro);
             this.cuadros.Add(cuadro);

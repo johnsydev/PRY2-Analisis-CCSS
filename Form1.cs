@@ -85,7 +85,11 @@ namespace PRY2_Analisis_CCSS
                     menu.Items.Add("Abrir consultorio", null, (s, ev) =>
                     {
                         cons.AbrirConsultorio();
-                        btn.BackColor = Color.Green;
+                        string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
+                        rutaBase = Path.GetFullPath(rutaBase);
+                        string rutaImagen = Path.Combine(rutaBase, "consultorioA.png");
+                        Image escalada = Image.FromFile(rutaImagen).GetThumbnailImage(btn.Width, btn.Height, null, IntPtr.Zero);
+                        btn.Image = escalada;
                         MessageBox.Show("Consultorio abierto: " + cons.id_consultorio, "Éxito");
 
                     });
@@ -95,7 +99,11 @@ namespace PRY2_Analisis_CCSS
                     menu.Items.Add("Cerrar consultorio", null, (s, ev) =>
                     {
                         cons.CerrarConsultorio();
-                        btn.BackColor = Color.Red;
+                        string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
+                        rutaBase = Path.GetFullPath(rutaBase);
+                        string rutaImagen = Path.Combine(rutaBase, "consultorioC.png");
+                        Image escalada = Image.FromFile(rutaImagen).GetThumbnailImage(btn.Width, btn.Height, null, IntPtr.Zero);
+                        btn.Image = escalada;
                         MessageBox.Show("Consultorio cerrado: " + cons.id_consultorio, "Éxito");
 
                     });
@@ -125,10 +133,10 @@ namespace PRY2_Analisis_CCSS
 
             string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
             rutaBase = Path.GetFullPath(rutaBase);
-            string rutaImagen = Path.Combine(rutaBase, "consultorioCe.png");
+            string rutaImagen = Path.Combine(rutaBase, "consultorioA.png");
 
             Button cuadro = new Button();
-            cuadro.Size = new Size(100, 150);
+            cuadro.Size = new Size(80, 120);
             cuadro.Text = "" + consultorio.id_consultorio;
             Image escalada = Image.FromFile(rutaImagen).GetThumbnailImage(cuadro.Width, cuadro.Height, null, IntPtr.Zero);
             cuadro.Image = escalada;

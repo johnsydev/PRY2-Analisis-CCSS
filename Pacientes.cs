@@ -12,6 +12,7 @@ namespace PRY2_Analisis_CCSS
         public string nombre;
         public string genero;
         public string imagen;
+        public string horaLlegada;
         public ArrayList especialidades = new ArrayList();
         public ArrayList tiquetes = new ArrayList();
 
@@ -40,6 +41,11 @@ namespace PRY2_Analisis_CCSS
         public string getNombre()
         {
             return this.nombre;
+        }
+
+        public void setHoraLlegada(string horaLlegada)
+        {
+            this.horaLlegada = horaLlegada;
         }
 
         public string getGenero()

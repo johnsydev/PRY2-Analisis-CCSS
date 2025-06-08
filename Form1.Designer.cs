@@ -41,6 +41,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.PanelEspera = new System.Windows.Forms.Panel();
+            this.panelTiempo = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -132,7 +133,7 @@
             this.AgregarPaciente.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(81)))), ((int)(((byte)(135)))));
             this.AgregarPaciente.ForeColor = System.Drawing.Color.White;
             this.AgregarPaciente.Name = "AgregarPaciente";
-            this.AgregarPaciente.Size = new System.Drawing.Size(143, 22);
+            this.AgregarPaciente.Size = new System.Drawing.Size(180, 22);
             this.AgregarPaciente.Text = "Agregar";
             this.AgregarPaciente.Click += new System.EventHandler(this.AgregarPaciente_Click);
             // 
@@ -141,7 +142,7 @@
             this.VerPacientes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(81)))), ((int)(((byte)(135)))));
             this.VerPacientes.ForeColor = System.Drawing.Color.White;
             this.VerPacientes.Name = "VerPacientes";
-            this.VerPacientes.Size = new System.Drawing.Size(143, 22);
+            this.VerPacientes.Size = new System.Drawing.Size(180, 22);
             this.VerPacientes.Text = "Ver pacientes";
             this.VerPacientes.Click += new System.EventHandler(this.VerPacientes_Click);
             // 
@@ -151,7 +152,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(764, 24);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(149, 463);
             this.panel1.TabIndex = 1;
@@ -175,10 +176,19 @@
             this.PanelEspera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelEspera.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.PanelEspera.Location = new System.Drawing.Point(0, 384);
-            this.PanelEspera.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PanelEspera.Margin = new System.Windows.Forms.Padding(2);
             this.PanelEspera.Name = "PanelEspera";
             this.PanelEspera.Size = new System.Drawing.Size(764, 103);
             this.PanelEspera.TabIndex = 2;
+            // 
+            // panelTiempo
+            // 
+            this.panelTiempo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(81)))), ((int)(((byte)(135)))));
+            this.panelTiempo.ForeColor = System.Drawing.Color.White;
+            this.panelTiempo.Location = new System.Drawing.Point(798, 1);
+            this.panelTiempo.Name = "panelTiempo";
+            this.panelTiempo.Size = new System.Drawing.Size(85, 23);
+            this.panelTiempo.TabIndex = 3;
             // 
             // Form1
             // 
@@ -186,11 +196,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(218)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(913, 487);
+            this.Controls.Add(this.panelTiempo);
             this.Controls.Add(this.PanelEspera);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Sistema CCSS";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -217,6 +228,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem VerPacientes;
         private System.Windows.Forms.Panel PanelEspera;
+        private System.Windows.Forms.Panel panelTiempo;
     }
 }
 

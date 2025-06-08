@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace PRY2_Analisis_CCSS
     public partial class Form1 : Form
     {
         ArrayList cuadros = new ArrayList();
+        private DateTime horaVirtualActual;
 
         public Form1()
         {
@@ -24,11 +26,31 @@ namespace PRY2_Analisis_CCSS
         private void Form1_Load(object sender, EventArgs e)
         {
             menuStrip1.Renderer = new CustomMenuRenderer();
+            IniciarReloj();
         }
 
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
 
+        }
+        private async void IniciarReloj()
+        {
+            Label lblHora = new Label();
+            lblHora.AutoSize = true;
+            lblHora.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblHora.Location = new Point(10, 2);
+            panelTiempo.Controls.Add(lblHora);
+
+            horaVirtualActual = DateTime.Today.AddHours(7); 
+
+            while (horaVirtualActual < DateTime.Today.AddHours(17)) 
+            {
+                lblHora.Text = horaVirtualActual.ToString("HH:mm");
+                await Task.Delay(300); 
+                horaVirtualActual = horaVirtualActual.AddMinutes(1);
+            }
+
+            lblHora.Text = "Fin de la jornada laboral";
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -182,6 +204,10 @@ namespace PRY2_Analisis_CCSS
 
             Pacientes paciente = new Pacientes(nombre, genero);
 
+            DateTime tiempo = horaVirtualActual;
+            string horaStr = tiempo.ToString("HH:mm");
+            paciente.setHoraLlegada(horaStr);
+
             string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
             rutaBase = Path.GetFullPath(rutaBase);
 
@@ -237,7 +263,7 @@ namespace PRY2_Analisis_CCSS
                 x += 80;
             }
 
-            MessageBox.Show("Paciente creado: " + paciente.nombre, "Éxito");
+            MessageBox.Show("Paciente creado: " + paciente.nombre + ", Hora de llegada: " + paciente.horaLlegada, "Éxito");
         }
 
         private void VerPacientes_Click(object sender, EventArgs e)

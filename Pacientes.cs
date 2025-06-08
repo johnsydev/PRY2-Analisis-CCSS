@@ -58,9 +58,13 @@ namespace PRY2_Analisis_CCSS
             this.imagen = imagen;
         }
 
-        public void asignarTiquete(Especialidad especialidad)
+        public string getImagen()
         {
-            Tiquete tiquete = new Tiquete(especialidad);
+            return this.imagen;
+        }
+
+        public void asignarTiquete(Tiquete tiquete)
+        {
             this.tiquetes.Add(tiquete);
         }
 

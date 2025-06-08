@@ -35,12 +35,6 @@ namespace PRY2_Analisis_CCSS
         }
         private async void IniciarReloj()
         {
-            Label lblHora = new Label();
-            lblHora.AutoSize = true;
-            lblHora.Font = new Font("Arial", 12, FontStyle.Bold);
-            lblHora.Location = new Point(10, 2);
-            panelTiempo.Controls.Add(lblHora);
-
             horaVirtualActual = DateTime.Today.AddHours(7); 
 
             while (horaVirtualActual < DateTime.Today.AddHours(17)) 
@@ -162,14 +156,64 @@ namespace PRY2_Analisis_CCSS
             cuadro.Text = "" + consultorio.id_consultorio;
             Image escalada = Image.FromFile(rutaImagen).GetThumbnailImage(cuadro.Width, cuadro.Height, null, IntPtr.Zero);
             cuadro.Image = escalada;
-            cuadro.TextAlign = ContentAlignment.MiddleRight; // Opcional: alinea el texto
+            cuadro.TextAlign = ContentAlignment.MiddleRight;
 
             cuadro.Location = new Point(20 + (contador * 120), 40);
             this.Controls.Add(cuadro);
             this.cuadros.Add(cuadro);
 
             cuadro.MouseDown += new MouseEventHandler(this.Cuadro_MouseClick);
+
+            //Agregar la cola
+            Panel panelCola = new Panel();
+            panelCola.Size = new Size(cuadro.Width, 200);
+            panelCola.Location = new Point(cuadro.Left, cuadro.Bottom + 5);
+            panelCola.BorderStyle = BorderStyle.FixedSingle;
+            panelCola.AutoScroll = true;
+            this.Controls.Add(panelCola);
+            consultorio.panelCola = panelCola;
+
         }
+
+        public static void AgregarVisualPacienteACola(Panel panelCola, string nombre, string rutaImagen)
+        {
+            Panel item = new Panel
+            {
+                Height = 50,
+                Width = Math.Max(panelCola.Width - 20, 150),
+                Location = new Point(0, panelCola.Controls.Count * 50),
+                Padding = new Padding(5),
+                BackColor = Color.Transparent
+            };
+
+            PictureBox pic = new PictureBox
+            {
+                Image = Image.FromFile(rutaImagen),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Size = new Size(28, 28),
+                Location = new Point(5, 10)
+            };
+
+            Label lbl = new Label
+            {
+                Text = nombre,
+                AutoSize = true,
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Arial", 9, FontStyle.Regular),
+                Location = new Point(pic.Right + 8, 15),
+                ForeColor = Color.Black,
+            };
+
+            item.Width = pic.Right + 10 + lbl.PreferredWidth + 10;
+
+            item.Controls.Add(pic);
+            item.Controls.Add(lbl);
+
+            panelCola.Controls.Add(item);
+
+        }
+
+
 
         private void agregarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -263,7 +307,16 @@ namespace PRY2_Analisis_CCSS
                 x += 80;
             }
 
+            string nombreEspecialidad = Prompt.ShowEspecialidades("Seleccione la especialidad que necesita", "Seleccionar especialidad");
+            Especialidad esp = Especialidad.buscarEspecialidadPorNombre(nombreEspecialidad);
+            Tiquete tiquete = new Tiquete(esp, paciente);
+            paciente.asignarTiquete(tiquete);
+
             MessageBox.Show("Paciente creado: " + paciente.nombre + ", Hora de llegada: " + paciente.horaLlegada, "Éxito");
+
+
+            // experimental
+            Principal.ActualizarColas();
         }
 
         private void VerPacientes_Click(object sender, EventArgs e)
@@ -301,6 +354,16 @@ namespace PRY2_Analisis_CCSS
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelTiempo_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
         {
 
         }

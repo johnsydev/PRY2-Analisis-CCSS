@@ -17,10 +17,21 @@ namespace PRY2_Analisis_CCSS
     {
         ArrayList cuadros = new ArrayList();
         private DateTime horaVirtualActual;
+        public static Form instancia;
 
         public Form1()
         {
             InitializeComponent();
+            instancia = this;
+        }
+
+        public static Form GetInstancia()
+        {
+            if (instancia == null)
+            {
+                instancia = new Form1();
+            }
+            return Form1.instancia;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,6 +84,7 @@ namespace PRY2_Analisis_CCSS
                     Especialidad esp = cons.buscarEspecialidadPorNombre(nombreEspecialidad);
                     esp.CerrarEspecialidad();
                     MessageBox.Show("Especialidad cerrada: " + esp.nombre, "Éxito");
+                    Principal.ActualizarColas();
 
                 });
                 menu.Items.Add("Ver especialidades", null, (s, ev) =>
@@ -121,6 +133,7 @@ namespace PRY2_Analisis_CCSS
                         Image escalada = Image.FromFile(rutaImagen).GetThumbnailImage(btn.Width, btn.Height, null, IntPtr.Zero);
                         btn.Image = escalada;
                         MessageBox.Show("Consultorio cerrado: " + cons.id_consultorio, "Éxito");
+                        Principal.ActualizarColas();
 
                     });
                 }
@@ -255,8 +268,6 @@ namespace PRY2_Analisis_CCSS
             string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
             rutaBase = Path.GetFullPath(rutaBase);
 
-            PanelEspera.Controls.Clear();
-
             List<string> imagenesHombres = new List<string>()
             {
                 Path.Combine(rutaBase, "hombre1.png"),
@@ -285,28 +296,6 @@ namespace PRY2_Analisis_CCSS
                 paciente.setImagen(imagenesHombres[random.Next(imagenesHombres.Count)]);
             }
 
-
-            int x = 10;
-            foreach (Pacientes p in Pacientes.getListaPacientes())
-            {
-                PictureBox pic = new PictureBox();
-                pic.Image = Image.FromFile(p.imagen);
-                pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                pic.Size = new Size(50, 50);
-                pic.Location = new Point(x, 20);
-                PanelEspera.Controls.Add(pic);
-
-                Label labelNombre = new Label();
-                labelNombre.Text = p.nombre;
-                labelNombre.AutoSize = false;
-                labelNombre.TextAlign = ContentAlignment.TopCenter;
-                labelNombre.Size = new Size(50, 20);
-                labelNombre.Location = new Point(x, 75);
-                PanelEspera.Controls.Add(labelNombre);
-
-                x += 80;
-            }
-
             string nombreEspecialidad = Prompt.ShowEspecialidades("Seleccione la especialidad que necesita", "Seleccionar especialidad");
             Especialidad esp = Especialidad.buscarEspecialidadPorNombre(nombreEspecialidad);
             Tiquete tiquete = new Tiquete(esp, paciente);
@@ -314,9 +303,34 @@ namespace PRY2_Analisis_CCSS
 
             MessageBox.Show("Paciente creado: " + paciente.nombre + ", Hora de llegada: " + paciente.horaLlegada, "Éxito");
 
+            Principal.ActualizarEspera();
+        }
 
-            // experimental
-            Principal.ActualizarColas();
+
+        public static void ActualizarEsperaVisual(ArrayList listaPacientes)
+        {
+            Form1 form = (Form1)GetInstancia();
+            form.PanelEspera.Controls.Clear();
+            int x = 10;
+            foreach (Pacientes p in listaPacientes)
+            {
+                PictureBox pic = new PictureBox();
+                pic.Image = Image.FromFile(p.imagen);
+                pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                pic.Size = new Size(50, 50);
+                pic.Location = new Point(x, 20);
+                form.PanelEspera.Controls.Add(pic);
+
+                Label labelNombre = new Label();
+                labelNombre.Text = p.nombre;
+                labelNombre.AutoSize = false;
+                labelNombre.TextAlign = ContentAlignment.TopCenter;
+                labelNombre.Size = new Size(50, 20);
+                labelNombre.Location = new Point(x, 75);
+                form.PanelEspera.Controls.Add(labelNombre);
+
+                x += 80;
+            }
         }
 
         private void VerPacientes_Click(object sender, EventArgs e)
@@ -366,6 +380,11 @@ namespace PRY2_Analisis_CCSS
         private void label2_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void botonRepartir_Click(object sender, EventArgs e)
+        {
+            Principal.ActualizarColas();
         }
     }
 }

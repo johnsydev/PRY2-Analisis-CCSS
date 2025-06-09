@@ -233,6 +233,7 @@
             this.botonRepartir.TabIndex = 0;
             this.botonRepartir.Text = "Repartir";
             this.botonRepartir.UseVisualStyleBackColor = false;
+            this.botonRepartir.Click += new System.EventHandler(this.botonRepartir_Click);
             // 
             // Form1
             // 

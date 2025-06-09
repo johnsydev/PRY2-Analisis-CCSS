@@ -13,6 +13,19 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        public static void ActualizarEspera()
+        {
+            ArrayList tiquetes = Tiquete.getListaTiquetes();
+            ArrayList listaEspera = new ArrayList();
+            foreach (Tiquete tiquete in tiquetes)
+            {
+                if (!tiquete.estaEnCola)
+                {
+                    listaEspera.Add(tiquete.paciente);
+                }
+            }
+            Form1.ActualizarEsperaVisual(listaEspera);
+        }
 
         public static void ActualizarColas()
         {
@@ -37,9 +50,16 @@ namespace PRY2_Analisis_CCSS
             {
                 foreach (Consultorios consultorio in consultorios)
                 {
-                    if (consultorio.buscarEspecialidadPorNombre(tiquete.especialidad.nombre) != null)
+                    tiquete.estaEnCola = false;
+                    if (!consultorio.Disponible)
+                    {
+                        continue;
+                    }
+                    Especialidad especialidad = consultorio.buscarEspecialidadPorNombre(tiquete.especialidad.nombre);
+                    if (especialidad != null && especialidad.disponible)
                     {
                         consultorio.agregarPaciente(tiquete);
+                        tiquete.estaEnCola = true;
 
                         if (consultorio.panelCola != null)
                         {
@@ -51,7 +71,7 @@ namespace PRY2_Analisis_CCSS
                 }
             }
 
-
+            ActualizarEspera();
             
         }
     }

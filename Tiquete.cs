@@ -14,6 +14,7 @@ namespace PRY2_Analisis_CCSS
         public static ArrayList listaTiquetes = new ArrayList();
         public static int cantidadTiquetes = 0;
         public Pacientes paciente;
+        public bool estaAtendido = false;
         public bool estaEnCola = false;
 
         public Tiquete(Especialidad especialidad, Pacientes paciente)

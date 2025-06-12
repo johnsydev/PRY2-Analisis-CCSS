@@ -94,5 +94,10 @@ namespace PRY2_Analisis_CCSS
             }
             return null;
         }
+
+        public int CantidadPacientes()
+        {
+            return colaPacientes.Count;
+        }
     }
 }

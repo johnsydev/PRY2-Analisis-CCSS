@@ -18,17 +18,18 @@ public class ColaDePrioridad
             return a.Prioridad.CompareTo(b.Prioridad);
         }
 
-    public Tiquete Remover()
-        {
-            Tiquete tiquete = tiquetes[0].tiquete;
-            tiquetes.RemoveAt(0);
-            return tiquete;
-        }
-
     public Tiquete PrimerElemento()
     {
-        return tiquetes[0].tiquete;
+        Tiquete tiquete = tiquetes[0].tiquete;
+        return tiquete;
     }
+
+    public void Remover()
+    {
+        tiquetes.RemoveAt(0);
+        return;
+    }
+
 
     public bool EstaVacia()
     {

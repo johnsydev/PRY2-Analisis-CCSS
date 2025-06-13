@@ -95,6 +95,20 @@ namespace PRY2_Analisis_CCSS
             return null;
         }
 
+        public int getTotalTiempoAtencion()
+        {
+            int tiempoTotal = 0;
+            foreach (Tiquete tiquete in colaPacientes)
+            {
+                Especialidad especialidad = tiquete.getEspecialidad();
+                if (especialidad != null)
+                {
+                    tiempoTotal += especialidad.getTiempoAtencion();
+                }
+            }
+            return tiempoTotal;
+        }
+
         public int CantidadPacientes()
         {
             return colaPacientes.Count;

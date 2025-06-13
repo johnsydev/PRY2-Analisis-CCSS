@@ -43,11 +43,14 @@ namespace PRY2_Analisis_CCSS
                 consultorio.colaPacientes.Clear();
             }
 
+            
             ColaDePrioridad colaPrioridad = new ColaDePrioridad();
+
             foreach (Tiquete tiquete in Tiquete.getListaTiquetes())
             {
-                if (!tiquete.estaAtendido && !tiquete.estaEnCola)
+                if (true) //(!tiquete.estaAtendido && !tiquete.estaEnCola)
                 {
+                    tiquete.estaEnCola = false; // Resetear el estado de la cola
                     colaPrioridad.Agregar(tiquete, tiquete.getPrioridad());
                 }
             }
@@ -73,6 +76,15 @@ namespace PRY2_Analisis_CCSS
                 colaPrioridad.Remover();
             }
 
+            // Actualizar prioridad
+            foreach (Tiquete tiquete in Tiquete.getListaTiquetes())
+            {
+                if (!tiquete.estaEnCola)
+                {
+                    tiquete.agregarPrioridad(1);
+                }
+                Debug.Print("Cliente: " + tiquete.paciente.getNombre() + ", Prioridad: " + tiquete.getPrioridad());
+            }
             ActualizarEspera();
         }
 
@@ -84,9 +96,10 @@ namespace PRY2_Analisis_CCSS
             Consultorios optimo = null;
             foreach (Consultorios consultorio in consultorios)
             {
-                if (consultorio.getEspecialidades().Contains(especialidad) && consultorio.Disponible)
+                if (consultorio.buscarEspecialidadPorNombre(especialidad.nombre) != null && consultorio.Disponible)
                 {
-                    int cantidad = consultorio.CantidadPacientes();
+                    //int cantidad = consultorio.CantidadPacientes();
+                    int cantidad = consultorio.getTotalTiempoAtencion();
                     if (cantidad < min)
                     {
                         min = cantidad;

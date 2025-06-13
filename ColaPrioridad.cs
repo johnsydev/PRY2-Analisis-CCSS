@@ -15,8 +15,8 @@ public class ColaDePrioridad
         ((int Prioridad, Tiquete tiquete) a,
         (int Prioridad, Tiquete tiquete) b)
         {
-            return a.Prioridad.CompareTo(b.Prioridad);
-        }
+            return b.Prioridad.CompareTo(a.Prioridad); //descendente
+    }
 
     public Tiquete PrimerElemento()
     {

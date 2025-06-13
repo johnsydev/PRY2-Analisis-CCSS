@@ -20,7 +20,7 @@ namespace PRY2_Analisis_CCSS
         public Tiquete(Especialidad especialidad, Pacientes paciente)
         {
             cantidadTiquetes++;
-            this.prioridad = cantidadTiquetes;
+            this.prioridad = 1;
             this.especialidad = especialidad;
             this.id_tiquete = cantidadTiquetes;
             this.paciente = paciente;
@@ -30,6 +30,11 @@ namespace PRY2_Analisis_CCSS
         public void setPrioridad(int prioridad)
         {
             this.prioridad = prioridad;
+        }
+
+        public void agregarPrioridad(int prioridad)
+        {
+            this.prioridad += prioridad;
         }
 
         public Especialidad getEspecialidad() {

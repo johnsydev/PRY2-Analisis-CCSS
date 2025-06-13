@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -18,7 +19,7 @@ namespace PRY2_Analisis_CCSS
     public partial class Form1 : Form
     {
         ArrayList cuadros = new ArrayList();
-        private DateTime horaVirtualActual;
+        public static DateTime horaVirtualActual;
         public static Form instancia;
 
         public Form1()
@@ -50,14 +51,23 @@ namespace PRY2_Analisis_CCSS
         {
             horaVirtualActual = DateTime.Today.AddHours(7); 
 
-            while (horaVirtualActual < DateTime.Today.AddHours(17)) 
+            while (true) //(horaVirtualActual < DateTime.Today.AddHours(17)) 
             {
                 lblHora.Text = horaVirtualActual.ToString("HH:mm");
-                await Task.Delay(300); 
+                await Task.Delay(300);     
+                if (Principal.horasParada.Contains(horaVirtualActual.ToString("HH:mm")))
+                {
+                    Principal.Atender(horaVirtualActual);
+                }
                 horaVirtualActual = horaVirtualActual.AddMinutes(1);
             }
 
             lblHora.Text = "Fin de la jornada laboral";
+        }
+
+        public static DateTime GetHoraVirtualActual()
+        {
+            return horaVirtualActual;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -192,13 +202,19 @@ namespace PRY2_Analisis_CCSS
 
         public static void AgregarVisualPacienteACola(Panel panelCola, string nombre, string rutaImagen)
         {
+            Color color = Color.Transparent;
+            if (panelCola.Controls.Count == 0)
+            {
+                color = Color.LightBlue;
+            }
+
             Panel item = new Panel
             {
                 Height = 50,
                 Width = Math.Max(panelCola.Width - 20, 150),
                 Location = new Point(0, panelCola.Controls.Count * 50),
                 Padding = new Padding(5),
-                BackColor = Color.Transparent
+                BackColor = color
             };
 
             PictureBox pic = new PictureBox
@@ -386,6 +402,7 @@ namespace PRY2_Analisis_CCSS
 
         private void botonRepartir_Click(object sender, EventArgs e)
         {
+            Principal.AgregarHoraParada(horaVirtualActual.AddMinutes(1));
             Principal.ActualizarColas();
         }
     }

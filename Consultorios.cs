@@ -15,6 +15,7 @@ namespace PRY2_Analisis_CCSS
         public bool Disponible;
         public ArrayList colaPacientes = new ArrayList();
         public Panel panelCola;
+        public Tiquete pacienteAdentro;
 
         public static ArrayList consultorios = new ArrayList();
         public static int cantidadConsultorios = 0;
@@ -112,6 +113,23 @@ namespace PRY2_Analisis_CCSS
         public int CantidadPacientes()
         {
             return colaPacientes.Count;
+        }
+
+        public void AtenderPaciente(DateTime horaActual)
+        {
+            if (colaPacientes.Count > 0)
+            {
+                pacienteAdentro = (Tiquete)colaPacientes[0];
+                colaPacientes.RemoveAt(0);
+                pacienteAdentro.estaEnCola = false;
+                pacienteAdentro.estaAtendido = true;
+                pacienteAdentro.setHoraAtencion(horaActual);
+                Principal.AgregarHoraParada(horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion()));
+            }
+            else
+            {
+                pacienteAdentro = null;
+            }
         }
     }
 }

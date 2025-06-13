@@ -16,6 +16,8 @@ namespace PRY2_Analisis_CCSS
         public Pacientes paciente;
         public bool estaAtendido = false;
         public bool estaEnCola = false;
+        public string horaAtencion = "";
+        public string horaSalida = "";
 
         public Tiquete(Especialidad especialidad, Pacientes paciente)
         {
@@ -35,6 +37,17 @@ namespace PRY2_Analisis_CCSS
         public void agregarPrioridad(int prioridad)
         {
             this.prioridad += prioridad;
+        }
+
+        public void setHoraAtencion(DateTime horaEntrada)
+        {
+            this.horaAtencion = horaEntrada.ToString("HH:mm");
+            this. horaSalida = horaEntrada.AddMinutes(especialidad.getTiempoAtencion()).ToString("HH:mm");
+        }
+
+        public void EliminarTiquete()
+        {
+            listaTiquetes.Remove(this);
         }
 
         public Especialidad getEspecialidad() {

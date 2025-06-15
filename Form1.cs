@@ -177,6 +177,10 @@ namespace PRY2_Analisis_CCSS
             rutaBase = Path.GetFullPath(rutaBase);
             string rutaImagen = Path.Combine(rutaBase, "consultorioA.png");
 
+            Label labelTiempo = new Label();
+            labelTiempo.Size = new Size(80, 20);
+            labelTiempo.Text = "" + consultorio.getTotalTiempoAtencion();
+
             Button cuadro = new Button();
             cuadro.Size = new Size(80, 120);
             cuadro.Text = "" + consultorio.id_consultorio;
@@ -199,6 +203,10 @@ namespace PRY2_Analisis_CCSS
                 espacio += 120;
             }
 
+            labelTiempo.Location = new Point(espacio, 20);
+            this.Controls.Add(labelTiempo);
+            consultorio.labelTiempo = labelTiempo;
+
             // Asignar posición encontrada
             cuadro.Location = new Point(espacio, 40); 
             this.Controls.Add(cuadro);
@@ -217,12 +225,14 @@ namespace PRY2_Analisis_CCSS
 
         }
 
-        public static void AgregarVisualPacienteACola(Panel panelCola, string nombre, string rutaImagen)
+        public static void AgregarVisualPacienteACola(Panel panelCola, string nombre, string rutaImagen, Tiquete tiquete)
         {
             Color color = Color.Transparent;
-            if (panelCola.Controls.Count == 0)
+            Color fore = Color.Black;
+            if (panelCola != null && tiquete.estaAtendido)
             {
-                color = Color.LightBlue;
+                color = ColorTranslator.FromHtml("#005187");
+                fore = Color.White;
             }
 
             Panel item = new Panel
@@ -231,7 +241,8 @@ namespace PRY2_Analisis_CCSS
                 Width = Math.Max(panelCola.Width - 20, 150),
                 Location = new Point(0, panelCola.Controls.Count * 50),
                 Padding = new Padding(5),
-                BackColor = color
+                BackColor = color,
+                ForeColor = fore
             };
 
             PictureBox pic = new PictureBox
@@ -249,7 +260,7 @@ namespace PRY2_Analisis_CCSS
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Arial", 9, FontStyle.Regular),
                 Location = new Point(pic.Right + 8, 15),
-                ForeColor = Color.Black,
+                ForeColor = fore,
             };
 
             item.Width = pic.Right + 10 + lbl.PreferredWidth + 10;

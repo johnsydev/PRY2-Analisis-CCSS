@@ -77,7 +77,7 @@ namespace PRY2_Analisis_CCSS
                     tiquete.estaEnCola = true;
                     if (consultorio.panelCola != null)
                     {
-                        Form1.AgregarVisualPacienteACola(consultorio.panelCola, tiquete.paciente.getNombre(), tiquete.paciente.getImagen());
+                        Form1.AgregarVisualPacienteACola(consultorio.panelCola, tiquete.paciente.getNombre(), tiquete.paciente.getImagen(), tiquete);
                     }
                 }
                 colaPrioridad.Remover();
@@ -151,6 +151,7 @@ namespace PRY2_Analisis_CCSS
                         if (consultorio.colaPacientes != null && consultorio.colaPacientes.Count > 0 && consultorio.pacienteAdentro != null)
                         {
                             consultorio.AtenderPaciente(horaActual1);
+                            consultorio.labelTiempo.Text = consultorio.getTiempoFinalizacionAtencion();
                         }
 
                         ActualizarColas();
@@ -160,6 +161,7 @@ namespace PRY2_Analisis_CCSS
                 {
                     Debug.Print("Atendiendo paciente en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
                     consultorio.AtenderPaciente(horaActual1);
+                    //consultorio.labelTiempo.Text = consultorio.getTiempoFinalizacionAtencion();
                 }
             }
             if (horasParada.Contains(horaActual))

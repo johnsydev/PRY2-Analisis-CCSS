@@ -15,6 +15,7 @@ namespace PRY2_Analisis_CCSS
         public bool Disponible;
         public ArrayList colaPacientes = new ArrayList();
         public Panel panelCola;
+        public Label labelTiempo;
         public Tiquete pacienteAdentro;
 
         public static ArrayList consultorios = new ArrayList();
@@ -144,17 +145,32 @@ namespace PRY2_Analisis_CCSS
         {
             if (colaPacientes.Count > 0)
             {
-                pacienteAdentro = (Tiquete)colaPacientes[0];
-                colaPacientes.RemoveAt(0);
-                pacienteAdentro.estaEnCola = false;
-                pacienteAdentro.estaAtendido = true;
-                pacienteAdentro.setHoraAtencion(horaActual);
-                Principal.AgregarHoraParada(horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion()));
+                Tiquete proximo = (Tiquete)colaPacientes[0];
+                if (Principal.ControlDeColas(proximo)) {
+                    pacienteAdentro = proximo;
+                    colaPacientes.RemoveAt(0);
+                    pacienteAdentro.estaEnCola = false;
+                    pacienteAdentro.estaAtendido = true;
+                    pacienteAdentro.setHoraAtencion(horaActual);
+                    Principal.AgregarHoraParada(horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion()));
+                    Principal.ActualizarColas();
+                }
             }
             else
             {
                 pacienteAdentro = null;
             }
+        }
+
+        public string getTiempoFinalizacionAtencion()
+        {
+            DateTime horaActual = Form1.GetHoraVirtualActual();
+            horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion());
+            foreach (Tiquete tiquete in colaPacientes)
+            {
+                horaActual.AddMinutes(tiquete.especialidad.getTiempoAtencion()); //Mejorar
+            }
+            return horaActual.ToString("HH:MM");
         }
     }
 }

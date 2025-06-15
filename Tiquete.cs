@@ -18,6 +18,7 @@ namespace PRY2_Analisis_CCSS
         public bool estaEnCola = false;
         public string horaAtencion = "";
         public string horaSalida = "";
+        public DateTime horaInicioDatetime;
 
         public Tiquete() { } // Para XML
 
@@ -44,7 +45,8 @@ namespace PRY2_Analisis_CCSS
         public void setHoraAtencion(DateTime horaEntrada)
         {
             this.horaAtencion = horaEntrada.ToString("HH:mm");
-            this. horaSalida = horaEntrada.AddMinutes(especialidad.getTiempoAtencion()).ToString("HH:mm");
+            this.horaSalida = horaEntrada.AddMinutes(especialidad.getTiempoAtencion()).ToString("HH:mm");
+            this.horaInicioDatetime = horaEntrada;
         }
 
         public void EliminarTiquete()

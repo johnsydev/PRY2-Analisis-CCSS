@@ -7,11 +7,13 @@ namespace PRY2_Analisis_CCSS
     {
         public int id_especialidad;
         public string nombre;
-        int tiempoAtendido;
+        public int tiempoAtendido;
         public bool disponible;
 
         public static ArrayList especialidades = new ArrayList();
         public static int cantidadEspecialidades = 0;
+
+        public Especialidad() { } // Para XML
 
         public Especialidad(string nombre)
         {

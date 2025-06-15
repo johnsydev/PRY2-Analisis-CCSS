@@ -19,6 +19,8 @@ namespace PRY2_Analisis_CCSS
         public static ArrayList listaPacientes = new ArrayList();
         public static int cantidadPacientes = 0;
 
+        public Pacientes() { } // Para XML
+
         public Pacientes(string nombre, string genero)
         {
             cantidadPacientes++;

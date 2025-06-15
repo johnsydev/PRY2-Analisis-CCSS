@@ -20,10 +20,10 @@ namespace PRY2_Analisis_CCSS
         public static ArrayList consultorios = new ArrayList();
         public static int cantidadConsultorios = 0;
 
-        public Consultorios()
+        public Consultorios(int id)
         {
             cantidadConsultorios++;
-            this.id_consultorio = cantidadConsultorios;
+            this.id_consultorio = id;
             this.Disponible = true;
             consultorios.Add(this);
         }
@@ -50,11 +50,13 @@ namespace PRY2_Analisis_CCSS
         }
 
         public static void EliminarConsultorio(int id) {
-            foreach (Consultorios consultorio in consultorios)
+            for (int i = consultorios.Count - 1; i >= 0; i--)
             {
-                if (consultorio.id_consultorio == id)
+                Consultorios cons = (Consultorios)consultorios[i];
+                if (cons.id_consultorio == id)
                 {
-                    consultorios.Remove(consultorio);
+                    consultorios.RemoveAt(i);
+                    break;
                 }
             }
         }
@@ -114,6 +116,29 @@ namespace PRY2_Analisis_CCSS
         {
             return colaPacientes.Count;
         }
+
+        public static int ObtenerPrimerIDDisponible()
+        {
+            int id = 1;
+            List<int> usados = new List<int>();
+
+            foreach (object obj in consultorios)
+            {
+                Consultorios cons = obj as Consultorios;
+                if (cons != null)
+                {
+                    usados.Add(cons.id_consultorio);
+                }
+            }
+
+            while (usados.Contains(id))
+            {
+                id++;
+            }
+
+            return id;
+        }
+
 
         public void AtenderPaciente(DateTime horaActual)
         {

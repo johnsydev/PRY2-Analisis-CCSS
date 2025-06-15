@@ -137,7 +137,7 @@ namespace PRY2_Analisis_CCSS
             ArrayList consultorios = Consultorios.getConsultorios();
             foreach (Consultorios consultorio in consultorios)
             {
-                if (consultorio.colaPacientes != null && consultorio.colaPacientes.Count > 0 && consultorio.pacienteAdentro != null)
+                if ((consultorio.colaPacientes != null && consultorio.colaPacientes.Count > 0 && consultorio.pacienteAdentro != null) || (consultorio.pacienteAdentro != null && consultorio.colaPacientes != null))
                 {
                     Tiquete pacienteActual = consultorio.pacienteAdentro;
                     Debug.Print("Paciente en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);

@@ -19,6 +19,8 @@ namespace PRY2_Analisis_CCSS
         public string horaAtencion = "";
         public string horaSalida = "";
 
+        public Tiquete() { } // Para XML
+
         public Tiquete(Especialidad especialidad, Pacientes paciente)
         {
             cantidadTiquetes++;

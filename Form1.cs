@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace PRY2_Analisis_CCSS
 {
@@ -162,8 +163,8 @@ namespace PRY2_Analisis_CCSS
                 return;
             }
 
-
-            Consultorios consultorio = new Consultorios();
+            int nuevoID = Consultorios.ObtenerPrimerIDDisponible();
+            Consultorios consultorio = new Consultorios(nuevoID);
 
             string nombreEspecialidad = Prompt.ShowEspecialidades("Seleccione la especialidad", "Asignar especialidad");
             Especialidad esp = Especialidad.buscarEspecialidadPorNombre(nombreEspecialidad);
@@ -183,7 +184,23 @@ namespace PRY2_Analisis_CCSS
             cuadro.Image = escalada;
             cuadro.TextAlign = ContentAlignment.MiddleRight;
 
-            cuadro.Location = new Point(20 + (contador * 120), 40);
+            int espacio = 20;
+            HashSet<int> ocupados = new HashSet<int>();
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button btn && btn.Image != null && int.TryParse(btn.Text, out _))
+                {
+                    ocupados.Add(btn.Left);
+                }
+            }
+
+            while (ocupados.Contains(espacio))
+            {
+                espacio += 120;
+            }
+
+            // Asignar posición encontrada
+            cuadro.Location = new Point(espacio, 40); 
             this.Controls.Add(cuadro);
             this.cuadros.Add(cuadro);
 
@@ -250,10 +267,21 @@ namespace PRY2_Analisis_CCSS
         {
             string nombre = Prompt.ShowDialog("Ingrese el nombre", "Agregar especialidad");
 
-            Especialidad especialidad = new Especialidad(nombre);
+            if (string.IsNullOrEmpty(nombre))
+            {
+                MessageBox.Show("Debe escribir un nombre para el paciente", "Error");
+                return;
+            }
 
+            if (Especialidad.buscarEspecialidadPorNombre(nombre) != null)
+            {
+                MessageBox.Show("La especialidad ya existe", "Error");
+                return;
+            }
+       
             int tiempoAtencion = int.Parse(Prompt.ShowDialog("Ingrese el tiempo de atencion de la especialidad (minutos)", "Agregar especialidad"));
 
+            Especialidad especialidad = new Especialidad(nombre);
             especialidad.setTiempoAtencion(tiempoAtencion);
 
             MessageBox.Show("Especialidad creada: " + especialidad.nombre +
@@ -324,6 +352,45 @@ namespace PRY2_Analisis_CCSS
             Principal.ActualizarEspera();
         }
 
+        private static void Paciente_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenuStrip menu = new ContextMenuStrip();
+                //Button btn = sender as Button;
+                //Pacientes cons = Pacientes.buscarPaciente(int.Parse(btn.Text));
+
+                PictureBox pic = sender as PictureBox;
+                Pacientes paciente = Pacientes.buscarPaciente((int)pic.Tag);
+
+                menu.Items.Add("Asignar especialidad adicional", null, (s, ev) =>
+                {
+                    string nombreEspecialidad = Prompt.ShowEspecialidades("Seleccione la especialidad adicional que necesita", "Asignar especialidad");
+                    Especialidad esp = Especialidad.buscarEspecialidadPorNombre(nombreEspecialidad);
+                    paciente.setEspecialidad(esp);
+                    Tiquete tiquete = new Tiquete(esp, paciente);
+                    paciente.asignarTiquete(tiquete);
+
+                });
+                menu.Items.Add("Ver especialidades", null, (s, ev) =>
+                {
+                    string mensaje = "Especialidades de " + paciente.nombre + ":\n";
+                    foreach (Tiquete tiq in paciente.tiquetes)
+                    {
+                        mensaje += "• " + tiq.especialidad.nombre + "\n";
+                    }
+                    if (paciente.tiquetes == null || paciente.tiquetes.Count <= 0)
+                    {
+                        mensaje = "No tiene especialidades asignadas";
+                    }
+                    MessageBox.Show(mensaje, "Lista de especialidades:");
+
+                });
+
+                menu.Show(Cursor.Position);
+            }
+        }
+
 
         public static void ActualizarEsperaVisual(ArrayList listaPacientes)
         {
@@ -337,6 +404,7 @@ namespace PRY2_Analisis_CCSS
                 pic.SizeMode = PictureBoxSizeMode.StretchImage;
                 pic.Size = new Size(50, 50);
                 pic.Location = new Point(x, 20);
+                pic.Tag = p.id_paciente;
                 form.PanelEspera.Controls.Add(pic);
 
                 Label labelNombre = new Label();
@@ -346,6 +414,8 @@ namespace PRY2_Analisis_CCSS
                 labelNombre.Size = new Size(50, 20);
                 labelNombre.Location = new Point(x, 75);
                 form.PanelEspera.Controls.Add(labelNombre);
+
+                pic.MouseDown += new MouseEventHandler(Form1.Paciente_MouseClick);
 
                 x += 80;
             }
@@ -364,26 +434,39 @@ namespace PRY2_Analisis_CCSS
         private void EliminarConsultorio_Click(object sender, EventArgs e)
         {
             int idConsultorio = Prompt.ShowEliminarConsultorio("Seleccione el consultorio que desea eliminar", "Eliminar consultorio");
-            Consultorios.EliminarConsultorio(idConsultorio);
 
-            Button botonAEliminar = null;
-            Control[] controles = new Control[this.Controls.Count];
-            this.Controls.CopyTo(controles, 0);
+            Consultorios cons = Consultorios.buscarConsultorio(idConsultorio);
 
-            foreach (Control ctrl in controles)
+            if (cons != null)
             {
-                if (ctrl is Button btn && btn.Text == idConsultorio.ToString())
+                if (cons.panelCola != null && this.Controls.Contains(cons.panelCola))
                 {
-                    botonAEliminar = btn;
-                    break;
+                    this.Controls.Remove(cons.panelCola);
+                    cons.panelCola.Dispose();
                 }
-            }
+                Control[] controles = new Control[this.Controls.Count];
+                this.Controls.CopyTo(controles, 0);
 
-            if (botonAEliminar != null)
+                foreach (Control ctrl in controles)
+                {
+                    if (ctrl is Button btn && btn.Text.Contains(idConsultorio.ToString()))
+                    {
+                        this.Controls.Remove(btn);
+                        btn.Dispose();
+                        break;
+                    }
+                }
+
+                Consultorios.EliminarConsultorio(idConsultorio);
+
+                MessageBox.Show($"Consultorio {idConsultorio} y su panel fueron eliminados.", "Éxito");
+            }
+            else
             {
-                botonAEliminar.Visible = false;  // Ocultar sin modificar la colección mientras iteras
+                MessageBox.Show("No se encontró el consultorio con ese ID.", "Error");
             }
         }
+
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -404,6 +487,111 @@ namespace PRY2_Analisis_CCSS
         {
             Principal.AgregarHoraParada(horaVirtualActual.AddMinutes(1));
             Principal.ActualizarColas();
+        }
+
+        public class ModeloXML
+        {
+            public List<Pacientes> listaPacientes = new List<Pacientes>();
+            public List<Especialidad> listaEspecialidades = new List<Especialidad>();
+            public List<Tiquete> listaTiquetes = new List<Tiquete>();
+
+            public ModeloXML() { }
+        }
+
+        private void cargarDatosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos XML (*.xml)|*.xml";
+            openFileDialog.Title = "Cargar datos desde archivo";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string rutaArchivo = openFileDialog.FileName;
+                try
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(ModeloXML));
+
+                    StreamReader sr = new StreamReader(rutaArchivo);
+
+                    ModeloXML datos = serializer.Deserialize(sr) as ModeloXML;
+
+                    string rutaBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources");
+                    rutaBase = Path.GetFullPath(rutaBase);
+
+                    if (datos != null)
+                    {
+                        string msg = "Datos cargados correctamente:\n";
+                        int pCount = Pacientes.listaPacientes.Count;
+
+                        int baseEspecialidades = Especialidad.cantidadEspecialidades;
+                        int basePacientes = Pacientes.cantidadPacientes;
+                        int baseTiquetes = Tiquete.cantidadTiquetes;
+
+                        foreach (Especialidad especialidad in datos.listaEspecialidades)
+                        {
+                            especialidad.id_especialidad += baseEspecialidades;
+                            Especialidad esp = new Especialidad(especialidad.nombre);
+                            esp.setTiempoAtencion(especialidad.tiempoAtendido);
+                        }
+
+                        msg += $"Se cargaron {datos.listaEspecialidades.Count} especialidades.\n";
+
+                        foreach (Pacientes paciente in datos.listaPacientes)
+                        {
+                            paciente.id_paciente += basePacientes;
+                            
+                            string rutaImagen = Path.Combine(rutaBase, paciente.imagen);
+
+                            Pacientes pac = new Pacientes(paciente.nombre, paciente.genero);
+                            pac.setHoraLlegada(paciente.horaLlegada);
+                            pac.setImagen(rutaImagen);
+                            DateTime tiempo = horaVirtualActual;
+                            string horaStr = tiempo.ToString("HH:mm");
+                            pac.setHoraLlegada(horaStr);
+
+                            foreach (Especialidad especialidad in paciente.getEspecialidades())
+                            {
+                                Especialidad esp = Especialidad.buscarEspecialidad(especialidad.id_especialidad+baseEspecialidades);
+                                if (esp != null)
+                                {
+                                    pac.setEspecialidad(esp);
+                                }
+                            }
+                        }
+
+                        msg += $"Se cargaron {datos.listaPacientes.Count} pacientes.\n";
+
+                        foreach (Tiquete tiquete in datos.listaTiquetes)
+                        {
+                            tiquete.id_tiquete += baseTiquetes;
+                            tiquete.paciente.id_paciente += basePacientes;
+                            tiquete.especialidad.id_especialidad += baseEspecialidades;
+                            int idPaciente = tiquete.paciente.id_paciente;
+                            Pacientes pacienteInvolucrado = Pacientes.buscarPaciente(idPaciente);
+
+                            Especialidad esp = Especialidad.buscarEspecialidad(tiquete.especialidad.id_especialidad);
+                            Tiquete tiq = new Tiquete(esp, pacienteInvolucrado);
+                            tiq.prioridad = tiquete.prioridad;
+                            pacienteInvolucrado.asignarTiquete(tiq);
+
+                        }
+
+                        msg += $"Se cargaron {datos.listaTiquetes.Count} tiquetes.";
+
+                        Principal.ActualizarEspera();
+
+                        MessageBox.Show(msg, "Éxito");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudieron cargar los datos correctamente, verifique que el formato sea el correcto.", "Error");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se pudieron cargar los datos correctamente, verifique que el formato sea el correcto.", "Error");
+                    MessageBox.Show(ex.Message, "Error Detalle");
+                }
+            }
         }
     }
 }

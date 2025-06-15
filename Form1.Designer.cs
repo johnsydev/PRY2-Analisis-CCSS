@@ -34,7 +34,6 @@
             this.EliminarConsultorio = new System.Windows.Forms.ToolStripMenuItem();
             this.especialidadesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AgregarEspecialidad = new System.Windows.Forms.ToolStripMenuItem();
-            this.editarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pacientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AgregarPaciente = new System.Windows.Forms.ToolStripMenuItem();
             this.VerPacientes = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +44,7 @@
             this.lblHora = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.botonRepartir = new System.Windows.Forms.Button();
+            this.cargarDatosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelTiempo.SuspendLayout();
@@ -59,10 +59,11 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.consultoriosToolStripMenuItem,
             this.especialidadesToolStripMenuItem,
-            this.pacientesToolStripMenuItem});
+            this.pacientesToolStripMenuItem,
+            this.cargarDatosToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1370, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1370, 36);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -98,11 +99,10 @@
             // especialidadesToolStripMenuItem
             // 
             this.especialidadesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AgregarEspecialidad,
-            this.editarToolStripMenuItem});
+            this.AgregarEspecialidad});
             this.especialidadesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.especialidadesToolStripMenuItem.Name = "especialidadesToolStripMenuItem";
-            this.especialidadesToolStripMenuItem.Size = new System.Drawing.Size(142, 29);
+            this.especialidadesToolStripMenuItem.Size = new System.Drawing.Size(142, 30);
             this.especialidadesToolStripMenuItem.Text = "Especialidades";
             this.especialidadesToolStripMenuItem.Click += new System.EventHandler(this.especialidadesToolStripMenuItem_Click);
             // 
@@ -114,14 +114,6 @@
             this.AgregarEspecialidad.Size = new System.Drawing.Size(178, 34);
             this.AgregarEspecialidad.Text = "Agregar";
             this.AgregarEspecialidad.Click += new System.EventHandler(this.agregarToolStripMenuItem1_Click);
-            // 
-            // editarToolStripMenuItem
-            // 
-            this.editarToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(81)))), ((int)(((byte)(135)))));
-            this.editarToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.editarToolStripMenuItem.Name = "editarToolStripMenuItem";
-            this.editarToolStripMenuItem.Size = new System.Drawing.Size(178, 34);
-            this.editarToolStripMenuItem.Text = "Editar";
             // 
             // pacientesToolStripMenuItem
             // 
@@ -158,7 +150,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(207, 524);
+            this.panel1.Size = new System.Drawing.Size(207, 521);
             this.panel1.TabIndex = 1;
             // 
             // label1
@@ -216,9 +208,9 @@
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Controls.Add(this.panelTiempo);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1163, 33);
+            this.panel2.Location = new System.Drawing.Point(1163, 36);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(207, 559);
+            this.panel2.Size = new System.Drawing.Size(207, 556);
             this.panel2.TabIndex = 4;
             // 
             // botonRepartir
@@ -234,6 +226,14 @@
             this.botonRepartir.Text = "Repartir";
             this.botonRepartir.UseVisualStyleBackColor = false;
             this.botonRepartir.Click += new System.EventHandler(this.botonRepartir_Click);
+            // 
+            // cargarDatosToolStripMenuItem
+            // 
+            this.cargarDatosToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.cargarDatosToolStripMenuItem.Name = "cargarDatosToolStripMenuItem";
+            this.cargarDatosToolStripMenuItem.Size = new System.Drawing.Size(130, 29);
+            this.cargarDatosToolStripMenuItem.Text = "Cargar datos";
+            this.cargarDatosToolStripMenuItem.Click += new System.EventHandler(this.cargarDatosToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -268,7 +268,6 @@
         private System.Windows.Forms.ToolStripMenuItem EliminarConsultorio;
         private System.Windows.Forms.ToolStripMenuItem especialidadesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AgregarEspecialidad;
-        private System.Windows.Forms.ToolStripMenuItem editarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pacientesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AgregarPaciente;
         private System.Windows.Forms.Panel panel1;
@@ -279,6 +278,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblHora;
         private System.Windows.Forms.Button botonRepartir;
+        private System.Windows.Forms.ToolStripMenuItem cargarDatosToolStripMenuItem;
     }
 }
 

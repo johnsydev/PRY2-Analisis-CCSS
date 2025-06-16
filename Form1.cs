@@ -18,10 +18,17 @@ using System.Xml.Serialization;
 
 namespace PRY2_Analisis_CCSS
 {
+    // This is the main form of the application.
+    // It manages the interface, virtual clock, patient and consultorio creation, and events.
     public partial class Form1 : Form
     {
+        // Stores visual representations of consultorios
         ArrayList cuadros = new ArrayList();
+
+        // Keeps track of the current virtual time
         public static DateTime horaVirtualActual;
+
+        // Singleton instance of the form
         public static Form instancia;
 
         public Form1()
@@ -30,6 +37,7 @@ namespace PRY2_Analisis_CCSS
             instancia = this;
         }
 
+        // Returns the single instance of the form
         public static Form GetInstancia()
         {
             if (instancia == null)
@@ -41,6 +49,7 @@ namespace PRY2_Analisis_CCSS
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Customize menu appearance and start the virtual clock
             menuStrip1.Renderer = new CustomMenuRenderer();
             IniciarReloj();
         }
@@ -49,6 +58,9 @@ namespace PRY2_Analisis_CCSS
         {
 
         }
+
+        // Starts a loop that simulates a virtual clock, advancing one minute at a time
+        // and triggering attention at predefined stop hours
         private async void IniciarReloj()
         {
             horaVirtualActual = DateTime.Today.AddHours(7); 
@@ -63,10 +75,9 @@ namespace PRY2_Analisis_CCSS
                 }
                 horaVirtualActual = horaVirtualActual.AddMinutes(1);
             }
-
-            lblHora.Text = "Fin de la jornada laboral";
         }
 
+        // Returns the current virtual time
         public static DateTime GetHoraVirtualActual()
         {
             return horaVirtualActual;
@@ -77,6 +88,8 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Displays a context menu when right-clicking a consultorio button
+        // to assign/close/view specialties and open/close the consultorio
         private void Cuadro_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -156,6 +169,7 @@ namespace PRY2_Analisis_CCSS
             }
         }
 
+        // Handles the creation of a new consultorio with visual elements and specialty assignment
         private void AgregarConsultorio_Click(object sender, EventArgs e)
         {
             if (Especialidad.cantidadEspecialidades == 0)
@@ -231,6 +245,7 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Adds a new visual representation of a patient to a consultorio's queue panel
         public static void AgregarVisualPacienteACola(Panel panelCola, string nombre, string rutaImagen, Tiquete tiquete)
         {
             Color color = Color.Transparent;
@@ -278,8 +293,7 @@ namespace PRY2_Analisis_CCSS
 
         }
 
-
-
+        // Adds a new specialty after asking the user for its name and attention time
         private void agregarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             string nombre = Prompt.ShowDialog("Ingrese el nombre", "Agregar especialidad");
@@ -310,6 +324,8 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Adds a new patient, asks for their name, gender, and required specialty,
+        // and adds them to the waiting list with a random image
         private void AgregarPaciente_Click(object sender, EventArgs e)
         {
             string nombre = Prompt.ShowDialog("Ingrese el nombre", "Agregar paciente");
@@ -369,6 +385,7 @@ namespace PRY2_Analisis_CCSS
             Principal.ActualizarEspera();
         }
 
+        // Handles right-click menu options for a patient to assign new specialties or view current ones
         private static void Paciente_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -408,7 +425,7 @@ namespace PRY2_Analisis_CCSS
             }
         }
 
-
+        // Updates the visual panel showing all patients in the waiting area
         public static void ActualizarEsperaVisual(ArrayList listaPacientes)
         {
             Form1 form = (Form1)GetInstancia();
@@ -438,6 +455,7 @@ namespace PRY2_Analisis_CCSS
             }
         }
 
+        // Shows a message with the list of all registered patients
         private void VerPacientes_Click(object sender, EventArgs e)
         {
             string mensaje = "";
@@ -448,6 +466,7 @@ namespace PRY2_Analisis_CCSS
             MessageBox.Show(mensaje, "Lista de pacientes");
         }
 
+        // Deletes a consultorio by removing its button and queue panel from the UI
         private void EliminarConsultorio_Click(object sender, EventArgs e)
         {
             int idConsultorio = Prompt.ShowEliminarConsultorio("Seleccione el consultorio que desea eliminar", "Eliminar consultorio");
@@ -500,6 +519,7 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Adds a message to the event log panel
         public static void AgregarLog(string mensaje)
         {
             Form1 form = (Form1)GetInstancia();
@@ -512,12 +532,14 @@ namespace PRY2_Analisis_CCSS
             form.textLogs.ScrollToCaret();
         }
 
+        // Manually triggers a redistribution of patients and adds a stop time for attention
         private void botonRepartir_Click(object sender, EventArgs e)
         {
             Principal.AgregarHoraParada(horaVirtualActual.AddMinutes(1));
             Principal.ActualizarColas();
         }
 
+        // Data model used to load and deserialize XML data into patients, specialties, and tickets
         public class ModeloXML
         {
             public List<Pacientes> listaPacientes = new List<Pacientes>();
@@ -527,6 +549,8 @@ namespace PRY2_Analisis_CCSS
             public ModeloXML() { }
         }
 
+        // Loads XML data and integrates it with the current session,
+        // updating all IDs to avoid duplication and restoring state
         private void cargarDatosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

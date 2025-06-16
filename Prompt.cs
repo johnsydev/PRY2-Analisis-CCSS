@@ -4,8 +4,13 @@ using System.Windows.Forms;
 
 namespace PRY2_Analisis_CCSS
 {
+    // This class provides static utility methods to show custom dialog windows (prompts)
+    // to gather user input. It includes different types of input: plain text, 
+    // selection of specialties, selection of a consultorio to delete, and gender choice.
     public static class Prompt
     {
+        // Displays a basic input dialog with a label and a textbox.
+        // The user can enter any text. Returns the text entered or an empty string if cancelled.
         public static string ShowDialog(string text, string caption)
         {
             Form prompt = new Form()
@@ -56,6 +61,8 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Displays a dialog with a ComboBox listing all available specialties.
+        // The user selects one. Returns the selected specialty name or an empty string if cancelled.
         public static string ShowEspecialidades(string text, string caption)
         {
             Form prompt = new Form()
@@ -119,6 +126,8 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Displays a dialog with a ComboBox listing all consultorios by ID.
+        // The user selects one. Returns the selected ID as an int, or -1 if cancelled.
         public static int ShowEliminarConsultorio(string text, string caption)
         {
             Form prompt = new Form()
@@ -182,6 +191,8 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        // Displays a dialog with a ComboBox to choose gender (Male or Female).
+        // Returns the selected gender or an empty string if cancelled.
         public static string ShowElegirGenero(string text, string caption)
         {
             Form prompt = new Form()

@@ -152,8 +152,13 @@ namespace PRY2_Analisis_CCSS
                     pacienteAdentro.estaEnCola = false;
                     pacienteAdentro.estaAtendido = true;
                     pacienteAdentro.setHoraAtencion(horaActual);
+                    Form1.AgregarLog($"El paciente {pacienteAdentro.paciente.getNombre()} ha sido ingresado en el consultorio {this.id_consultorio} a las {horaActual.ToString("HH:mm")}");
                     Principal.AgregarHoraParada(horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion()));
                     Principal.ActualizarColas();
+                }
+                else
+                {
+                    Form1.AgregarLog($"El paciente {proximo.paciente.getNombre()} ya esta siendo atendido en otro consultorio, tendrá que esperar para entrar en el consultorio {this.id_consultorio}");
                 }
             }
             else
@@ -164,13 +169,26 @@ namespace PRY2_Analisis_CCSS
 
         public string getTiempoFinalizacionAtencion()
         {
+            if (pacienteAdentro == null && colaPacientes.Count == 0)
+            {
+                return "00:00"; 
+            }
+
             DateTime horaActual = Form1.GetHoraVirtualActual();
-            horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion());
+
+            if (pacienteAdentro != null)
+            {
+                horaActual = horaActual.AddMinutes(pacienteAdentro.especialidad.getTiempoAtencion());
+            }
+
             foreach (Tiquete tiquete in colaPacientes)
             {
-                horaActual.AddMinutes(tiquete.especialidad.getTiempoAtencion()); //Mejorar
+                horaActual = horaActual.AddMinutes(tiquete.especialidad.getTiempoAtencion());
             }
-            return horaActual.ToString("HH:MM");
+
+            return horaActual.ToString("HH:mm"); 
         }
+
+
     }
 }

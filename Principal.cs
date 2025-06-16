@@ -79,6 +79,10 @@ namespace PRY2_Analisis_CCSS
                     {
                         Form1.AgregarVisualPacienteACola(consultorio.panelCola, tiquete.paciente.getNombre(), tiquete.paciente.getImagen(), tiquete);
                     }
+                    if (consultorio.labelTiempo != null)
+                    {
+                        consultorio.labelTiempo.Text = consultorio.getTiempoFinalizacionAtencion();
+                    }
                 }
                 colaPrioridad.Remover();
             }
@@ -133,6 +137,7 @@ namespace PRY2_Analisis_CCSS
         public static void Atender(DateTime horaActual1)
         {
             Debug.Print("Atendiendo pacientes a las: " + horaActual1.ToString("HH:mm"));
+            Form1.AgregarLog("Atendiendo pacientes a las: " + horaActual1.ToString("HH:mm"));
             string horaActual = horaActual1.ToString("HH:mm");
             ArrayList consultorios = Consultorios.getConsultorios();
             foreach (Consultorios consultorio in consultorios)
@@ -141,9 +146,11 @@ namespace PRY2_Analisis_CCSS
                 {
                     Tiquete pacienteActual = consultorio.pacienteAdentro;
                     Debug.Print("Paciente en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
+                    Form1.AgregarLog("Paciente en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
                     if (pacienteActual.horaSalida == horaActual)
                     {
                         Debug.Print("Paciente atendido: " + pacienteActual.paciente.getNombre() + " en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
+                        Form1.AgregarLog("Paciente atendido: " + pacienteActual.paciente.getNombre() + " en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
                         pacienteActual.estaAtendido = true;
                         pacienteActual.estaEnCola = false;
                         pacienteActual.EliminarTiquete(); //atendido
@@ -160,6 +167,7 @@ namespace PRY2_Analisis_CCSS
                 else if (consultorio.colaPacientes != null && consultorio.colaPacientes.Count > 0 && consultorio.pacienteAdentro == null)
                 {
                     Debug.Print("Atendiendo paciente en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
+                    Form1.AgregarLog("Atendiendo paciente en consultorio: " + consultorio.id_consultorio + " a las: " + horaActual);
                     consultorio.AtenderPaciente(horaActual1);
                     //consultorio.labelTiempo.Text = consultorio.getTiempoFinalizacionAtencion();
                 }

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
+
 namespace PRY2_Analisis_CCSS
 {
     public partial class Form1 : Form
@@ -203,12 +204,17 @@ namespace PRY2_Analisis_CCSS
                 espacio += 120;
             }
 
-            labelTiempo.Location = new Point(espacio, 20);
+            labelTiempo.Location = new Point(espacio, 25);
+            labelTiempo.TextAlign = ContentAlignment.MiddleCenter;
+            labelTiempo.BackColor = Color.Transparent;
+            labelTiempo.ForeColor = Color.Black;
+            labelTiempo.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            labelTiempo.Text = consultorio.getTiempoFinalizacionAtencion();
             this.Controls.Add(labelTiempo);
             consultorio.labelTiempo = labelTiempo;
 
-            // Asignar posición encontrada
-            cuadro.Location = new Point(espacio, 40); 
+            // ↓ Posicionamos el botón más abajo para dar aire al label
+            cuadro.Location = new Point(espacio, 40);
             this.Controls.Add(cuadro);
             this.cuadros.Add(cuadro);
 
@@ -494,6 +500,18 @@ namespace PRY2_Analisis_CCSS
 
         }
 
+        public static void AgregarLog(string mensaje)
+        {
+            Form1 form = (Form1)GetInstancia();
+            Panel panel = form.panelLogs;
+
+            form.textLogs.AppendText(mensaje + Environment.NewLine + Environment.NewLine);
+            form.textLogs.ScrollBars = ScrollBars.Vertical;
+            form.textLogs.SelectionStart = form.textLogs.Text.Length;
+            form.textLogs.SelectionStart = form.textLogs.Text.Length;
+            form.textLogs.ScrollToCaret();
+        }
+
         private void botonRepartir_Click(object sender, EventArgs e)
         {
             Principal.AgregarHoraParada(horaVirtualActual.AddMinutes(1));
@@ -603,6 +621,11 @@ namespace PRY2_Analisis_CCSS
                     MessageBox.Show(ex.Message, "Error Detalle");
                 }
             }
+        }
+
+        private void panelContenido_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

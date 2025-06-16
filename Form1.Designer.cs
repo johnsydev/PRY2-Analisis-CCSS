@@ -37,16 +37,17 @@
             this.pacientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AgregarPaciente = new System.Windows.Forms.ToolStripMenuItem();
             this.VerPacientes = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.cargarDatosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelLogs = new System.Windows.Forms.Panel();
+            this.textLogs = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.PanelEspera = new System.Windows.Forms.Panel();
             this.panelTiempo = new System.Windows.Forms.Panel();
             this.lblHora = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.botonRepartir = new System.Windows.Forms.Button();
-            this.cargarDatosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelLogs.SuspendLayout();
             this.panelTiempo.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +64,7 @@
             this.cargarDatosToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1370, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1370, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -74,7 +75,7 @@
             this.EliminarConsultorio});
             this.consultoriosToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.consultoriosToolStripMenuItem.Name = "consultoriosToolStripMenuItem";
-            this.consultoriosToolStripMenuItem.Size = new System.Drawing.Size(128, 29);
+            this.consultoriosToolStripMenuItem.Size = new System.Drawing.Size(128, 32);
             this.consultoriosToolStripMenuItem.Text = "Consultorios";
             // 
             // AgregarConsultorio
@@ -102,7 +103,7 @@
             this.AgregarEspecialidad});
             this.especialidadesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.especialidadesToolStripMenuItem.Name = "especialidadesToolStripMenuItem";
-            this.especialidadesToolStripMenuItem.Size = new System.Drawing.Size(142, 30);
+            this.especialidadesToolStripMenuItem.Size = new System.Drawing.Size(142, 32);
             this.especialidadesToolStripMenuItem.Text = "Especialidades";
             this.especialidadesToolStripMenuItem.Click += new System.EventHandler(this.especialidadesToolStripMenuItem_Click);
             // 
@@ -122,7 +123,7 @@
             this.VerPacientes});
             this.pacientesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.pacientesToolStripMenuItem.Name = "pacientesToolStripMenuItem";
-            this.pacientesToolStripMenuItem.Size = new System.Drawing.Size(100, 29);
+            this.pacientesToolStripMenuItem.Size = new System.Drawing.Size(100, 32);
             this.pacientesToolStripMenuItem.Text = "Pacientes";
             // 
             // AgregarPaciente
@@ -143,15 +144,36 @@
             this.VerPacientes.Text = "Ver pacientes";
             this.VerPacientes.Click += new System.EventHandler(this.VerPacientes_Click);
             // 
-            // panel1
+            // cargarDatosToolStripMenuItem
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 35);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(207, 521);
-            this.panel1.TabIndex = 1;
+            this.cargarDatosToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.cargarDatosToolStripMenuItem.Name = "cargarDatosToolStripMenuItem";
+            this.cargarDatosToolStripMenuItem.Size = new System.Drawing.Size(130, 32);
+            this.cargarDatosToolStripMenuItem.Text = "Cargar datos";
+            this.cargarDatosToolStripMenuItem.Click += new System.EventHandler(this.cargarDatosToolStripMenuItem_Click);
+            // 
+            // panelLogs
+            // 
+            this.panelLogs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLogs.Controls.Add(this.textLogs);
+            this.panelLogs.Controls.Add(this.label1);
+            this.panelLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLogs.Location = new System.Drawing.Point(0, 35);
+            this.panelLogs.Name = "panelLogs";
+            this.panelLogs.Size = new System.Drawing.Size(207, 524);
+            this.panelLogs.TabIndex = 1;
+            // 
+            // textLogs
+            // 
+            this.textLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(218)))), ((int)(((byte)(250)))));
+            this.textLogs.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textLogs.Location = new System.Drawing.Point(0, 41);
+            this.textLogs.Multiline = true;
+            this.textLogs.Name = "textLogs";
+            this.textLogs.ReadOnly = true;
+            this.textLogs.Size = new System.Drawing.Size(205, 481);
+            this.textLogs.TabIndex = 1;
             // 
             // label1
             // 
@@ -205,12 +227,12 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.panel1);
+            this.panel2.Controls.Add(this.panelLogs);
             this.panel2.Controls.Add(this.panelTiempo);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1163, 36);
+            this.panel2.Location = new System.Drawing.Point(1163, 33);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(207, 556);
+            this.panel2.Size = new System.Drawing.Size(207, 559);
             this.panel2.TabIndex = 4;
             // 
             // botonRepartir
@@ -226,14 +248,6 @@
             this.botonRepartir.Text = "Repartir";
             this.botonRepartir.UseVisualStyleBackColor = false;
             this.botonRepartir.Click += new System.EventHandler(this.botonRepartir_Click);
-            // 
-            // cargarDatosToolStripMenuItem
-            // 
-            this.cargarDatosToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.cargarDatosToolStripMenuItem.Name = "cargarDatosToolStripMenuItem";
-            this.cargarDatosToolStripMenuItem.Size = new System.Drawing.Size(130, 29);
-            this.cargarDatosToolStripMenuItem.Text = "Cargar datos";
-            this.cargarDatosToolStripMenuItem.Click += new System.EventHandler(this.cargarDatosToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -251,7 +265,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
+            this.panelLogs.ResumeLayout(false);
+            this.panelLogs.PerformLayout();
             this.panelTiempo.ResumeLayout(false);
             this.panelTiempo.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -270,7 +285,7 @@
         private System.Windows.Forms.ToolStripMenuItem AgregarEspecialidad;
         private System.Windows.Forms.ToolStripMenuItem pacientesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AgregarPaciente;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelLogs;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem VerPacientes;
         private System.Windows.Forms.Panel PanelEspera;
@@ -279,6 +294,7 @@
         private System.Windows.Forms.Label lblHora;
         private System.Windows.Forms.Button botonRepartir;
         private System.Windows.Forms.ToolStripMenuItem cargarDatosToolStripMenuItem;
+        private System.Windows.Forms.TextBox textLogs;
     }
 }
 
